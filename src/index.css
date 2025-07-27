@@ -1,0 +1,162 @@
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.5rem;
+  
+  /* רקעים */
+  --background: oklch(98% 0.002 240);              /* רקע כללי לבן-כחלחל */
+  --card: oklch(100% 0 0);                         /* כרטיסי תוכן לבנים */
+  --popover: oklch(100% 0 0);                      /* חלונות קופצים */
+  
+  /* טקסטים */
+  --foreground: oklch(25% 0.012 240);              /* טקסט ראשי כהה */
+  --card-foreground: oklch(25% 0.012 240);         /* טקסט בכרטיסים */
+  --popover-foreground: oklch(25% 0.012 240);      /* טקסט בחלונות קופצים */
+  
+  /* צבעי פעולה ראשיים */
+  --primary: oklch(55% 0.18 220);                  /* כחול חינוכי - כפתורים ראשיים */
+  --primary-foreground: oklch(100% 0 0);           /* טקסט על רקע כחול */
+  
+  /* צבעי פעולה משניים */
+  --secondary: oklch(88% 0.02 220);                /* כחול בהיר - רקעי מעבר */
+  --secondary-foreground: oklch(35% 0.015 220);    /* טקסט על רקע משני */
+  
+  /* צבעי הדגשה */
+  --accent: oklch(75% 0.12 160);                   /* ירוק חינוכי - הדגשות חיוביות */
+  --accent-foreground: oklch(100% 0 0);            /* טקסט על רקע ירוק */
+  
+  /* צבעים עמומים */
+  --muted: oklch(92% 0.008 220);                   /* רקע עמום */
+  --muted-foreground: oklch(55% 0.015 220);        /* טקסט עמום */
+  
+  /* צבע מחיקה/אזהרה */
+  --destructive: oklch(62% 0.20 25);               /* אדום רך לפעולות מחיקה */
+  
+  /* גבולות וקווים */
+  --border: oklch(85% 0.008 220);                  /* גבולות עדינים */
+  --input: oklch(95% 0.005 220);                   /* רקע שדות קלט */
+  --ring: oklch(55% 0.18 220);                     /* מסגרת פוקוס */
+  
+  /* צבעי גרפים וחלוקה */
+  --chart-1: oklch(65% 0.15 220);                  /* כחול לגרפים */
+  --chart-2: oklch(70% 0.12 160);                  /* ירוק לגרפים */
+  --chart-3: oklch(75% 0.14 60);                   /* צהוב-כתום לגרפים */
+  --chart-4: oklch(68% 0.16 300);                  /* סגול לגרפים */
+  --chart-5: oklch(72% 0.13 20);                   /* אדום-ורוד לגרפים */
+  
+  /* תפריט צד */
+  --sidebar: oklch(96% 0.005 220);                 /* רקע תפריט צד */
+  --sidebar-foreground: oklch(30% 0.012 240);      /* טקסט תפריט צד */
+  --sidebar-primary: oklch(55% 0.18 220);          /* פריטים פעילים בתפריט */
+  --sidebar-primary-foreground: oklch(100% 0 0);   /* טקסט על פריטים פעילים */
+  --sidebar-accent: oklch(90% 0.015 220);          /* רקע hover בתפריט */
+  --sidebar-accent-foreground: oklch(30% 0.012 240); /* טקסט hover בתפריט */
+  --sidebar-border: oklch(85% 0.008 220);          /* גבולות תפריט צד */
+  --sidebar-ring: oklch(55% 0.18 220);             /* מסגרת פוקוס בתפריט */
+}
+
+.dark {
+  /* רקעים במצב כהה */
+  --background: oklch(12% 0.015 240);              /* רקע כהה עם גוון כחלחל */
+  --card: oklch(15% 0.012 240);                    /* כרטיסים כהים */
+  --popover: oklch(15% 0.012 240);                 /* חלונות קופצים כהים */
+  
+  /* טקסטים במצב כהה */
+  --foreground: oklch(95% 0.005 240);              /* טקסט בהיר */
+  --card-foreground: oklch(95% 0.005 240);         /* טקסט בכרטיסים */
+  --popover-foreground: oklch(95% 0.005 240);      /* טקסט בחלונות קופצים */
+  
+  /* צבעי פעולה ראשיים במצב כהה */
+  --primary: oklch(70% 0.15 220);                  /* כחול בהיר יותר */
+  --primary-foreground: oklch(12% 0.015 240);      /* טקסט כהה על רקע בהיר */
+  
+  /* צבעי פעולה משניים במצב כהה */
+  --secondary: oklch(20% 0.015 240);               /* רקע משני כהה */
+  --secondary-foreground: oklch(85% 0.008 220);    /* טקסט בהיר על רקע כהה */
+  
+  /* צבעי הדגשה במצב כהה */
+  --accent: oklch(65% 0.10 160);                   /* ירוק רך יותר */
+  --accent-foreground: oklch(12% 0.015 240);       /* טקסט כהה על רקע בהיר */
+  
+  /* צבעים עמומים במצב כהה */
+  --muted: oklch(18% 0.012 240);                   /* רקע עמום כהה */
+  --muted-foreground: oklch(65% 0.015 220);        /* טקסט עמום בהיר */
+  
+  /* צבע מחיקה/אזהרה במצב כהה */
+  --destructive: oklch(65% 0.18 25);               /* אדום רך */
+  
+  /* גבולות וקווים במצב כהה */
+  --border: oklch(25% 0.015 240);                  /* גבולות כהים */
+  --input: oklch(18% 0.012 240);                   /* רקע שדות קלט כהה */
+  --ring: oklch(70% 0.15 220);                     /* מסגרת פוקוס בהירה */
+  
+  /* צבעי גרפים במצב כהה */
+  --chart-1: oklch(70% 0.12 220);                  /* כחול בהיר לגרפים */
+  --chart-2: oklch(72% 0.10 160);                  /* ירוק בהיר לגרפים */
+  --chart-3: oklch(78% 0.12 60);                   /* צהוב בהיר לגרפים */
+  --chart-4: oklch(70% 0.13 300);                  /* סגול בהיר לגרפים */
+  --chart-5: oklch(75% 0.11 20);                   /* אדום-ורוד בהיר לגרפים */
+  
+  /* תפריט צד במצב כהה */
+  --sidebar: oklch(10% 0.015 240);                 /* רקע תפריט כהה */
+  --sidebar-foreground: oklch(90% 0.008 220);      /* טקסט תפריט בהיר */
+  --sidebar-primary: oklch(70% 0.15 220);          /* פריטים פעילים בהירים */
+  --sidebar-primary-foreground: oklch(12% 0.015 240); /* טקסט על פריטים פעילים */
+  --sidebar-accent: oklch(22% 0.015 240);          /* רקע hover כהה */
+  --sidebar-accent-foreground: oklch(90% 0.008 220); /* טקסט hover בהיר */
+  --sidebar-border: oklch(25% 0.015 240);          /* גבולות תפריט כהים */
+  --sidebar-ring: oklch(70% 0.15 220);             /* מסגרת פוקוס בתפריט */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
