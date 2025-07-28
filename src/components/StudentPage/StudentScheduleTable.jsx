@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import Modal from "@/components/ui/modal"; // נניח שיש קומפוננטת מודל
+import Modal from "@/components/ui/Modal"; // נניח שיש קומפוננטת מודל
 import { Pencil, Trash2, Plus } from "lucide-react";
 import AssignForm from "./AssignForm";
 import EditForm from "./EditForm";
