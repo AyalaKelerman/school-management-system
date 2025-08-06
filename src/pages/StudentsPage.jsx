@@ -10,9 +10,13 @@ const StudentsPage = () => {
   const [search, setSearch] = useState('');
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [schedule, setSchedule] = useState({});
+  const [teachers, setTeachers] = useState([]);
+  const [subjects, setSubjects] = useState([]);
 
   useEffect(() => {
-    API.get('/students').then((res) => setStudents(res.data));
+    API.get('/students').then(res => setStudents(res.data));
+    API.get('/teachers').then(res => setTeachers(res.data));
+    API.get('/subjects').then(res => setSubjects(res.data));
   }, []);
 
   const formatSchedule = (flatSchedule) => {
@@ -29,17 +33,7 @@ const StudentsPage = () => {
     return grouped;
   };
 
-  useEffect(() => {
-    if (selectedStudent) {
-      API.get(`/schedules?student_id=${selectedStudent.id}`).then((res) => {
-        const grouped = formatSchedule(res.data);
-        setSchedule(grouped);
-      });
-    }
-  }, [selectedStudent]);
-
-  const handleAssign = async (data) => {
-    await API.post('/schedules', data);
+  const fetchSchedule = async () => {
     if (selectedStudent) {
       const updated = await API.get(`/schedules?student_id=${selectedStudent.id}`);
       const grouped = formatSchedule(updated.data);
@@ -47,13 +41,20 @@ const StudentsPage = () => {
     }
   };
 
+  useEffect(() => {
+    if (selectedStudent) {
+      fetchSchedule();
+    }
+  }, [selectedStudent]);
+
+  const handleAssign = async (data) => {
+    await API.post('/schedules', data);
+    fetchSchedule();
+  };
+
   const handleDelete = async (scheduleId) => {
     await API.delete(`/schedules/${scheduleId}`);
-    if (selectedStudent) {
-      const updated = await API.get(`/schedules?student_id=${selectedStudent.id}`);
-      const grouped = formatSchedule(updated.data);
-      setSchedule(grouped);
-    }
+    fetchSchedule();
   };
 
   const filtered = students.filter((s) => s.full_name.toLowerCase().includes(search.toLowerCase()));
@@ -68,7 +69,15 @@ const StudentsPage = () => {
       {selectedStudent && (
         <Card className="p-4">
           <h2 className="text-lg font-bold mb-2">מערכת תלמידה: {selectedStudent.full_name}</h2>
-          <StudentScheduleTableWithAssign schedule={schedule} student={selectedStudent} onAssign={handleAssign} onDelete={handleDelete} />
+          <StudentScheduleTableWithAssign
+            schedule={schedule}
+            student={selectedStudent}
+            onAssign={handleAssign}
+            onDelete={handleDelete}
+            teachers={teachers}
+            subjects={subjects}
+            fetchSchedule={fetchSchedule}
+          />
         </Card>
       )}
     </div>
