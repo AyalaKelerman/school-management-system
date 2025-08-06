@@ -3,17 +3,20 @@ import React, { useState } from "react";
 import Select from "react-select";
 import { Button } from "@/components/ui/button";
 
-const AssignForm = ({ students, teachers, subjects, onSubmit, onCancel }) => {
+const AssignForm = ({ day, hour, students, teachers, subjects, onSubmit, onClose }) => {
   const [studentId, setStudentId] = useState(null);
   const [teacherId, setTeacherId] = useState(null);
   const [subjectId, setSubjectId] = useState(null);
 
+  
   const handleSubmit = () => {
     if (studentId && teacherId && subjectId) {
       onSubmit({
+        day,
+        hour,
         student_id: studentId.value,
         teacher_id: teacherId.value,
-        subject_id: subjectId.value,
+        subject: subjectId.label,
       });
     }
   };
@@ -36,7 +39,7 @@ const AssignForm = ({ students, teachers, subjects, onSubmit, onCancel }) => {
         onChange={setSubjectId}
       />
       <div className="flex justify-end gap-2 mt-4">
-        <Button variant="outline" onClick={onCancel}>ביטול</Button>
+        <Button variant="outline" onClick={onClose}>ביטול</Button>
         <Button onClick={handleSubmit}>שמור</Button>
       </div>
     </div>

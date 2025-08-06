@@ -8,7 +8,8 @@ import EditForm from "./EditForm";
 const daysOfWeek = ["ראשון", "שני", "שלישי", "רביעי", "חמישי"];
 const hours = [1, 2, 3, 4, 5, 6, 7, 8];
 
-const StudentScheduleTable = ({ assignments, onAssign, onUpdate, onDelete }) => {
+const StudentScheduleTable = ({ assignments, onAssign, onUpdate, onDelete, students, teachers, subjects }) => {
+
   const [modalData, setModalData] = useState(null);
 
   const openAssignModal = (day, hour) => {
@@ -21,8 +22,11 @@ const StudentScheduleTable = ({ assignments, onAssign, onUpdate, onDelete }) => 
 
   const closeModal = () => setModalData(null);
 
-  const getAssignment = (day, hour) =>
-    assignments.find((a) => a.day === day && a.hour === hour);
+  const getAssignment = (day, hour) => {
+    return (assignments || []).find(
+      (a) => String(a.day) === String(day) && Number(a.hour) === Number(hour)
+    );
+  };
 
   return (
     <div className="overflow-x-auto rounded border shadow-sm">
@@ -45,13 +49,13 @@ const StudentScheduleTable = ({ assignments, onAssign, onUpdate, onDelete }) => 
                   <td key={`${day}-${hour}`} className="border p-2 text-center">
                     {assignment ? (
                       <div className="space-y-1">
-                        <div className="font-semibold">{assignment.subject_name}</div>
+                        <div className="font-semibold">{assignment.subject}</div>
                         <div className="text-xs text-gray-600">{assignment.teacher_name}</div>
                         <div className="flex justify-center gap-1 mt-1">
                           <Button size="sm" variant="outline" onClick={() => openEditModal(assignment)}>
                             <Pencil size={14} />
                           </Button>
-                          <Button size="sm" variant="destructive" onClick={() => onDelete(assignment)}>
+                          <Button size="sm" variant="destructive" onClick={() => onDelete(assignment.schedule_id)}>
                             <Trash2 size={14} />
                           </Button>
                         </div>
@@ -70,13 +74,28 @@ const StudentScheduleTable = ({ assignments, onAssign, onUpdate, onDelete }) => 
       </table>
 
       {modalData && (
-        <Modal onClose={closeModal}>
+        <div className="mt-6 p-4 border rounded bg-white shadow-md max-w-lg mx-auto">
           {modalData.type === "assign" ? (
-            <AssignForm day={modalData.day} hour={modalData.hour} onSave={onAssign} onClose={closeModal} />
+            <AssignForm
+              day={modalData.day}
+              hour={modalData.hour}
+              students={students}
+              teachers={teachers}
+              subjects={subjects}
+              onSubmit={onAssign}
+              onClose={closeModal}
+            />
           ) : (
-            <EditForm data={modalData} onSave={onUpdate} onClose={closeModal} />
+            <EditForm
+              assignment={modalData}
+              onSubmit={onUpdate}
+              onClose={closeModal}
+              students={students}
+              teachers={teachers}
+              subjects={subjects}
+            />
           )}
-        </Modal>
+        </div>
       )}
     </div>
   );

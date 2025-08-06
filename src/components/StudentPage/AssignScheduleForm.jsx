@@ -1,75 +1,83 @@
-import React, { useEffect, useState } from 'react';
-import API from '../../services/api';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
+// import React, { useState } from 'react';
 
-const days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי'];
-const hours = [1, 2, 3, 4, 5, 6, 7];
+// const days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי'];
+// const hours = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00'];
 
-const AssignScheduleForm = ({ student, day, hour, onAssign }) => {
-  const [teachers, setTeachers] = useState([]);
-  const [form, setForm] = useState({
-    day: day || '',
-    hour: hour || '',
-    subject: '',
-    teacher_id: ''
-  });
+// const AssignScheduleForm = ({ studentId, onAssign }) => {
+//   const [formData, setFormData] = useState({
+//     day: '',
+//     hour: '',
+//     teacher: '',
+//     subject: '',
+//   });
 
-  useEffect(() => {
-    API.get('/teachers').then((res) => setTeachers(res.data));
-  }, []);
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormData(prev => ({ ...prev, [name]: value }));
+//   };
 
-  const handleChange = (key, value) => {
-    setForm({ ...form, [key]: value });
-  };
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     if (!formData.day || !formData.hour) return;
+//     onAssign({
+//       student_id: studentId,
+//       ...formData
+//     });
+//     setFormData({ day: '', hour: '', teacher: '', subject: '' });
+//   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await API.post('/schedules', {
-        ...form,
-        student_id: student.id
-      });
-      alert('השיבוץ נשמר בהצלחה');
-      if (onAssign) onAssign();
-    } catch (err) {
-      console.error('שגיאה בשמירת שיבוץ:', err);
-      alert('אירעה שגיאה בשמירה');
-    }
-  };
+//   return (
+//     <form onSubmit={handleSubmit} className="p-4 border rounded-xl shadow bg-white grid grid-cols-2 gap-4">
+//       <div>
+//         <label className="block font-semibold mb-1">יום</label>
+//         <select name="day" value={formData.day} onChange={handleChange} className="w-full border rounded px-2 py-1">
+//           <option value="">בחר יום</option>
+//           {days.map(day => <option key={day} value={day}>{day}</option>)}
+//         </select>
+//       </div>
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4 border p-4 rounded-lg shadow-md">
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label>יום</Label>
-          <Input disabled value={form.day} />
-        </div>
-        <div>
-          <Label>שעה</Label>
-          <Input disabled value={form.hour} />
-        </div>
-        <div className="col-span-2">
-          <Label>מקצוע</Label>
-          <Input value={form.subject} onChange={(e) => handleChange('subject', e.target.value)} placeholder="למשל: חשבון" />
-        </div>
-        <div className="col-span-2">
-          <Label>מורה</Label>
-          <Select onValueChange={(val) => handleChange('teacher_id', val)}>
-            <SelectTrigger><SelectValue placeholder="בחר מורה" /></SelectTrigger>
-            <SelectContent>
-              {teachers.map((t) => (
-                <SelectItem key={t.id} value={t.id.toString()}>{t.full_name}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-      <Button type="submit" className="w-full">שמור שיבוץ</Button>
-    </form>
-  );
-};
+//       <div>
+//         <label className="block font-semibold mb-1">שעה</label>
+//         <select name="hour" value={formData.hour} onChange={handleChange} className="w-full border rounded px-2 py-1">
+//           <option value="">בחר שעה</option>
+//           {hours.map(hour => <option key={hour} value={hour}>{hour}</option>)}
+//         </select>
+//       </div>
 
-export default AssignScheduleForm;
+//       <div>
+//         <label className="block font-semibold mb-1">מורה</label>
+//         <input
+//           type="text"
+//           name="teacher"
+//           value={formData.teacher}
+//           onChange={handleChange}
+//           className="w-full border rounded px-2 py-1"
+//           placeholder="הקלד שם מורה"
+//         />
+//       </div>
+
+//       <div>
+//         <label className="block font-semibold mb-1">מקצוע</label>
+//         <input
+//           type="text"
+//           name="subject"
+//           value={formData.subject}
+//           onChange={handleChange}
+//           className="w-full border rounded px-2 py-1"
+//           placeholder="הקלד מקצוע"
+//         />
+//       </div>
+
+//       <div className="col-span-2 text-left">
+//         <button
+//           type="submit"
+//           className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
+//         >
+//           הוסף שיבוץ
+//         </button>
+//       </div>
+//     </form>
+//   );
+// };
+
+// export default AssignScheduleForm;
