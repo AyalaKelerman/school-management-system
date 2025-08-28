@@ -1,26 +1,42 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import Modal from "@/components/ui/Modal"; // נניח שיש קומפוננטת מודל
 import { Pencil, Trash2, Plus } from "lucide-react";
 import AssignForm from "./AssignForm";
 import EditForm from "./EditForm";
+import API from "../../services/api";
 
 const daysOfWeek = ["ראשון", "שני", "שלישי", "רביעי", "חמישי"];
 const hours = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const StudentScheduleTable = ({ assignments, onAssign, onUpdate, onDelete, students, teachers, subjects }) => {
-
   const [modalData, setModalData] = useState(null);
+  const [occupiedTeachers, setOccupiedTeachers] = useState([]);
 
-  const openAssignModal = (day, hour) => {
+  const fetchOccupiedTeachers = async (day, hour) => {
+    try {
+      const res = await API.get(`/schedules/occupied-teachers?day=${encodeURIComponent(day)}&hour=${encodeURIComponent(hour)}`);
+      setOccupiedTeachers(res.data || []);
+    } catch (err) {
+      console.error("שגיאה בשליפת מורות תפוסות:", err);
+      setOccupiedTeachers([]);
+    }
+  };
+
+  const openAssignModal = async (day, hour) => {
+    await fetchOccupiedTeachers(day, hour);
     setModalData({ type: "assign", day, hour });
   };
 
-  const openEditModal = (assignment) => {
+  const openEditModal = async (assignment) => {
+    // גם בעריכה נטען מורות תפוסות ליום/שעה של הסלוט המוערך
+    await fetchOccupiedTeachers(assignment.day, assignment.hour);
     setModalData({ type: "edit", ...assignment });
   };
 
-  const closeModal = () => setModalData(null);
+  const closeModal = () => {
+    setModalData(null);
+    setOccupiedTeachers([]);
+  };
 
   const getAssignment = (day, hour) => {
     return (assignments || []).find(
@@ -82,17 +98,26 @@ const StudentScheduleTable = ({ assignments, onAssign, onUpdate, onDelete, stude
               students={students}
               teachers={teachers}
               subjects={subjects}
-              onSubmit={onAssign}
+              occupiedTeachers={occupiedTeachers}
+              onSubmit={(payload) => {
+                // onSubmit נשאר כפי שהיה אצלך
+                onAssign(payload);
+                closeModal();
+              }}
               onClose={closeModal}
             />
           ) : (
             <EditForm
               assignment={modalData}
-              onSubmit={onUpdate}
+              onSubmit={(payload) => {
+                onUpdate(payload);
+                closeModal();
+              }}
               onClose={closeModal}
               students={students}
               teachers={teachers}
               subjects={subjects}
+              occupiedTeachers={occupiedTeachers}
             />
           )}
         </div>
