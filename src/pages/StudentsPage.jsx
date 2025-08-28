@@ -68,7 +68,7 @@ const StudentsPage = () => {
 
       {selectedStudent && (
         <Card className="p-4">
-          <h2 className="text-lg font-bold mb-2">מערכת תלמידה: {selectedStudent.full_name}</h2>
+          <h2 className="text-lg font-bold mb-2">מערכת תלמידה: {selectedStudent.full_name} | {selectedStudent.class_name}</h2>
           <StudentScheduleTableWithAssign
             schedule={schedule}
             student={selectedStudent}

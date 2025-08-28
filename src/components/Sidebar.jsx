@@ -15,6 +15,12 @@ const Sidebar = () => {
         <li><NavLink to="/summary">ריכוז נתונים</NavLink></li>
         <li><NavLink to="/manage-data">הזנת נתונים</NavLink></li>
       </ul>
+      <button onClick={() => {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }}>
+        התנתק
+      </button>
     </div>
   );
 };

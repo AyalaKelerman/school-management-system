@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/table";
 
 const StudentsListForTeacher = ({ students }) => {
+  console.log(students);
+  
   return (
     <div className="overflow-x-auto mt-4 rounded-xl border border-secondary shadow-sm bg-white">
       <Table>

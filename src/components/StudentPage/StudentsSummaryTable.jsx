@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/table';
 
 const StudentsSummaryTable = ({ students, onSelectStudent }) => {
+
   return (
     <Table className="mt-4">
       <TableHeader className="bg-primary text-white">
